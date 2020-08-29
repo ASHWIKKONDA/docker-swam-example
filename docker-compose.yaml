@@ -1,48 +1,41 @@
-{\rtf1\ansi\ansicpg1252\cocoartf2513
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-{\*\expandedcolortbl;;}
-\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
-
-\f0\fs24 \cf0 version: "3"\
-#two services web and database\
-services:\
-  web:\
-    # replace username/repo:tag with your name and image details\
-    image: gopishankar1/myswarmapp:1.0.0\
-#if you see deploy its for multiserver\
-    deploy:\
-#replcias tell how many copies needed \
-      replicas: 3\
-#due to some reson cotainer failed\
-      restart_policy:\
-        condition: on-failure\
-#we provide ram and cpu\
-      resources:\
-        limits:\
-          cpus: "0.1"\
-          memory: 50M\
-#need port to communicate\
-    ports:\
-      - "80:80"\
-#special network created all this container communicate.\
-#name can be anything\
-    networks:\
-      - webnet\
-#next we create data base\
-  redis:\
-    image: redis\
-#what ports you want to expose ?\
-    ports:\
-      - "6379:6379"\
-    volumes:\
-      - /home/ubuntu/data:/data\
-    deploy:\
-      placement:\
-        constraints: [node.role == manager]\
-    command: redis-server --appendonly yes\
-    networks:\
-      - webnet\
-networks:\
-  webnet:}
+version: "3"
+#two services web and database
+services:
+  web:
+    # replace username/repo:tag with your name and image details
+    image: gopishankar1/myswarmapp:1.0.0
+#if you see deploy its for multiserver
+    deploy:
+#replcias tell how many copies needed 
+      replicas: 3
+#due to some reson cotainer failed
+      restart_policy:
+        condition: on-failure
+#we provide ram and cpu
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+#need port to communicate
+    ports:
+      - "80:80"
+#special network created all this container communicate.
+#name can be anything
+    networks:
+      - webnet
+#next we create data base
+  redis:
+    image: redis
+#what ports you want to expose ?
+    ports:
+      - "6379:6379"
+    volumes:
+      - /home/ubuntu/data:/data
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    command: redis-server --appendonly yes
+    networks:
+      - webnet
+networks:
+  webnet:
